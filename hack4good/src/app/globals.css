@@ -19,3 +19,13 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Custom scrollbar styles for Firefox */
+* {
+  scrollbar-color: #4B6EAF #f1f1f1; /* Thumb and track colors for Firefox */
+}
+
+/* Optional: Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
