@@ -1,4 +1,3 @@
-// app/page.tsx
 import Sidebar from '../components/sidebar'
 
 type Product = {
