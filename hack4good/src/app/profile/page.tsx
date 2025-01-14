@@ -8,13 +8,21 @@ type UserProfile = {
 }
 
 export default function Profile() {
-  const userData = {
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    phone: '(123) 456-7890',
-    address: '123 Main St, Springfield, IL 62701',
+  const [userData, setUserData] = useState<UserProfile>({
+    name: '[Name]',
+    email: '[email]',
+    phone: '[phone number]',
+    address: '[room number]',
+  })
+
+  const reqPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => { // TODO
+    setUserData({ ...userData, [e.target.name]: e.target.value })
   }
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    alert('Profile updated!')
+  }
 
   return (
     <div className="flex">
