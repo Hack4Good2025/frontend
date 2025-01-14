@@ -11,13 +11,13 @@ type UserProfile = {
 
 export default function Profile() {
   const [userData, setUserData] = useState<UserProfile>({
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    phone: '(123) 456-7890',
-    address: '123 Main St, Springfield, IL 62701',
+    name: '[Name]',
+    email: '[email]',
+    phone: '[phone number]',
+    address: '[room number]',
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const reqPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => { // TODO
     setUserData({ ...userData, [e.target.name]: e.target.value })
   }
 
