@@ -4,7 +4,9 @@ export default function Sidebar() {
   return (
     <aside className="w-64 bg-teal-500 text-white h-screen p-4">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold">Supermarket</h2>
+        <img src={'https://mwh.muhammadiyah.org.sg/wp-content/uploads/2021/06/mwh-esig-footer-062.png'}
+                className="object-cover rounded-md mb-4"
+              />
       </div>
       <nav>
         <ul>

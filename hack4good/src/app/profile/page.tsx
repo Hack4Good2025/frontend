@@ -8,12 +8,12 @@ type UserProfile = {
 }
 
 export default function Profile() {
-  const [userData, setUserData] = useState<UserProfile>({
+  const userData = {
     name: 'John Doe',
     email: 'johndoe@example.com',
     phone: '(123) 456-7890',
     address: '123 Main St, Springfield, IL 62701',
-  })
+  }
 
 
   return (
