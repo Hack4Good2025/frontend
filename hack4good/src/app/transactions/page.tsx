@@ -1,5 +1,4 @@
-// app/transactions/page.tsx
-import Sidebar from '../../components/Sidebar'
+import Sidebar from '../../components/sidebar'
 
 type Transaction = {
   id: string
