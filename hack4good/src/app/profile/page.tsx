@@ -1,4 +1,7 @@
+"use client"
+
 import Sidebar from '../../components/sidebar'
+import { useState } from 'react'
 
 type UserProfile = {
   name: string

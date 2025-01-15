@@ -25,6 +25,10 @@ body {
   scrollbar-color: #4B6EAF #f1f1f1; /* Thumb and track colors for Firefox */
 }
 
+th {
+  text-align: left;
+}
+
 /* Optional: Smooth scrolling */
 html {
   scroll-behavior: smooth;

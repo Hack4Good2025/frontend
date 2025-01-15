@@ -1,5 +1,8 @@
+"use client"
+
 import Sidebar from '../components/sidebar'
 import Link from 'next/link'
+import { useState } from 'react'
 
 type Product = {
   id: number
@@ -14,6 +17,12 @@ type Task = {
   reward: number
   img: string
 }
+
+interface FormData {
+  quantity: number
+  item: string
+}
+
 const userName = "Tester"
 const voucherCount = 100
 const products: Product[] = [
@@ -36,6 +45,32 @@ const tasks: Task[] = [
 ]
 
 export default function Home() {
+
+  const [reqFormData, setReqFormData] = useState({
+    1: { id:'', quantity: '' },
+    2: { id:'', quantity: '' },
+    3: { id:'', quantity: '' },
+    4: { id:'', quantity: '' },
+    5: { id:'', quantity: '' },
+    6: { id:'', quantity: '' },
+    7: { id:'', quantity: '' },
+  });
+
+  const handleChange = (id: number, product:string, value: string) => {
+    setReqFormData((prev) => ({
+      ...prev,
+      [id]: { ...prev[id], id: product, quantity: value },
+    }));
+  };
+
+  const handleSubmit = (id: number) => {
+    // Reset form data for that item after submission
+    setReqFormData((prev) => ({
+      ...prev,
+      [id]: { id:'', quantity: ''},
+    }));
+  };
+
   return (
     <div className="flex">
       <Sidebar />
@@ -78,10 +113,26 @@ export default function Home() {
               />
               <h3 className="text-xl font-semibold">{product.name}</h3>
               <p className="text-teal-500">{product.price.toFixed(0)} Vouchers</p>
-              <button className="w-full bg-teal-600 text-white py-2 mt-4 rounded-lg hover:bg-teal-700">
+              
+              <form onSubmit={handleSubmit} className="space-y-4">
+		<div>
+		  <input
+		    type="text"
+		    id={product.id}
+		    name={product.name}
+		    className="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500"
+		    placeholder="Enter quantity"
+		    value={reqFormData.quantity}
+		    onChange={handleChange}
+		    required
+		  />
+		</div>
+              <button className="w-full bg-teal-600 text-white py-2 mt-2 rounded-lg hover:bg-teal-700">
                 Request for this
               </button>
-            </div>
+		</form>
+              
+           </div>
           ))}
                     <div key={999} className="flex-shrink-0 bg-white p-4 rounded-lg shadow-md">
               <img
@@ -89,9 +140,23 @@ export default function Home() {
                 className="w-full h-48 object-cover rounded-md mb-4"
               />
               <h3 className="text-xl font-semibold">{"Enter product naame"}</h3>
-              <button className="w-full bg-teal-600 text-white py-2 mt-4 rounded-lg hover:bg-teal-700">
+		<form onSubmit={handleSubmit} className="space-y-4">
+		<div>
+		  <input
+		    type="text"
+		    id="999"
+		    name="preorder"
+		    className="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500"
+		    placeholder="Enter quantity"
+		    value={reqFormData.quantity}
+		    onChange={handleChange}
+		    required
+		  />
+		</div>
+              <button className="w-full bg-teal-600 text-white py-2 mt-2 rounded-lg hover:bg-teal-700">
                 Pre-order
               </button>
+		</form>
             </div>
         </section>
       </main>
