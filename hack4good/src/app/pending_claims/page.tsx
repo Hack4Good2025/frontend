@@ -7,7 +7,7 @@ import Transactions from '../transactions/page'
 
 type Claim = {
     voucherId: number
-    residentId: number
+    residentId: string
     voucherTaskName: string
     residentName: string
     residentImg: string
@@ -19,13 +19,13 @@ interface FormData {
 }
 
 const claims: Claim[] = [
-    { voucherId: 1, residentId: 11, voucherTaskName: "Hallway Cleaning", residentName: "Adam", residentImg: `https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/24544933-ca76-403b-b102-56b18c235d74/ba8e5245-deaf-4acb-af8d-0ab1ba2d42a8.png` },
-    { voucherId: 2, residentId: 22, voucherTaskName: "Event Organisation", residentName: "", residentImg: `https://via.placeholder.com/200` } ,
-    { voucherId: 3, residentId: 33, voucherTaskName: "Task A", residentName: "", residentImg: `https://via.placeholder.com/200` },
-    { voucherId: 4, residentId: 44, voucherTaskName: "Task B", residentName: "", residentImg: `https://via.placeholder.com/200` },
-    { voucherId: 5, residentId: 55, voucherTaskName: "Task C", residentName: "", residentImg: `https://via.placeholder.com/200` },
-    { voucherId: 6, residentId: 66, voucherTaskName: "Task D", residentName: "", residentImg: `https://via.placeholder.com/200` },
-    { voucherId: 7, residentId: 77, voucherTaskName: "Task E", residentName: "", residentImg: `https://via.placeholder.com/200` },
+    { voucherId: 1, residentId: "a1", voucherTaskName: "Hallway Cleaning", residentName: "Adam", residentImg: `https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/24544933-ca76-403b-b102-56b18c235d74/ba8e5245-deaf-4acb-af8d-0ab1ba2d42a8.png` },
+    { voucherId: 2, residentId: "a2", voucherTaskName: "Event Organisation", residentName: "", residentImg: `https://via.placeholder.com/200` } ,
+    { voucherId: 3, residentId: "a3", voucherTaskName: "Task A", residentName: "", residentImg: `https://via.placeholder.com/200` },
+    { voucherId: 4, residentId: "a4", voucherTaskName: "Task B", residentName: "", residentImg: `https://via.placeholder.com/200` },
+    { voucherId: 5, residentId: "a5", voucherTaskName: "Task C", residentName: "", residentImg: `https://via.placeholder.com/200` },
+    { voucherId: 6, residentId: "a6", voucherTaskName: "Task D", residentName: "", residentImg: `https://via.placeholder.com/200` },
+    { voucherId: 7, residentId: "a7", voucherTaskName: "Task E", residentName: "", residentImg: `https://via.placeholder.com/200` },
   ]
 
 export default function Home() {

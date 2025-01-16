@@ -6,7 +6,7 @@ import { useState } from 'react'
 import Transactions from '../transactions/page'
 
 type Resident = {
-  userId: number
+  userId: string
   name: string
   voucherBalance: number
   img: string
@@ -18,13 +18,13 @@ interface FormData {
 }
 
 const residents: Resident[] = [
-    { userId: 1, name: 'Adam', voucherBalance: 10, img: `https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/24544933-ca76-403b-b102-56b18c235d74/ba8e5245-deaf-4acb-af8d-0ab1ba2d42a8.png` },
-    { userId: 2, name: 'Ahmad', voucherBalance: 8, img: `https://via.placeholder.com/200` } ,
-    { userId: 3, name: 'Ben', voucherBalance: 2, img: `https://via.placeholder.com/200` },
-    { userId: 4, name: 'Resident 4', voucherBalance: 0, img: `https://via.placeholder.com/200` },
-    { userId: 5, name: 'Resident 5', voucherBalance: 0, img: `https://via.placeholder.com/200` },
-    { userId: 6, name: 'Resident 6', voucherBalance: 0, img: `https://via.placeholder.com/200` },
-    { userId: 7, name: 'Resident 7', voucherBalance: 0, img: `https://via.placeholder.com/200` },
+    { userId: "a1", name: 'Adam', voucherBalance: 10, img: `https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/24544933-ca76-403b-b102-56b18c235d74/ba8e5245-deaf-4acb-af8d-0ab1ba2d42a8.png` },
+    { userId: "a2", name: 'Ahmad', voucherBalance: 8, img: `https://via.placeholder.com/200` } ,
+    { userId: "a3", name: 'Ben', voucherBalance: 2, img: `https://via.placeholder.com/200` },
+    { userId: "a4", name: 'Resident 4', voucherBalance: 0, img: `https://via.placeholder.com/200` },
+    { userId: "a5", name: 'Resident 5', voucherBalance: 0, img: `https://via.placeholder.com/200` },
+    { userId: "a6", name: 'Resident 6', voucherBalance: 0, img: `https://via.placeholder.com/200` },
+    { userId: "a7", name: 'Resident 7', voucherBalance: 0, img: `https://via.placeholder.com/200` },
   ]
 
 export default function Home() {
