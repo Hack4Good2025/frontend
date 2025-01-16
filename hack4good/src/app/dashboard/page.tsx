@@ -2,7 +2,7 @@
 
 import Sidebar from '../../components/sidebar'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 type Product = {
@@ -37,8 +37,8 @@ const tasks: Task[] = [
   { id: 1, name: 'Hallway cleaning', reward: 30, claimed: false, distributed: false, img: `https://cdn-icons-png.flaticon.com/512/9818/9818876.png` },
   { id: 2, name: 'Event organisation', reward: 15, claimed: false, distributed: false, img: `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwNhe3i33SVxcmc8VeO8HhH3wJ0imFZB_PiQ&s` } ,
   { id: 3, name: 'Task 3', reward: 2, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
-  { id: 4, name: 'Task 4', reward: 15, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
-  { id: 5, name: 'Task 5', reward: 22, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
+  { id: 4, name: 'Task 4', reward: 15, claimed: true, distributed: false, img: `https://via.placeholder.com/200` },
+  { id: 5, name: 'Task 5', reward: 22, claimed: true, distributed: false, img: `https://via.placeholder.com/200` },
   { id: 6, name: 'Task 6', reward: 6, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
   { id: 7, name: 'Task 7', reward: 12, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
 ]
@@ -46,6 +46,44 @@ const tasks: Task[] = [
 export default function Home() {
 
   const router = useRouter()
+  const { userId } = router.query
+  
+  const getTasks = async () => {
+      try {
+
+      const response = await fetch('https://0f2e-137-132-26-153.ngrok-free.app/api/vouchers/viewtasks', {
+        method: 'POST'
+      })
+    
+      if (!response.ok) {
+        throw new Error('Get tasks failed')
+      }
+
+      const result = await response.json()
+      console.log(result)
+    } catch (error) {
+      console.error('Error getting tasks:', error)
+    }
+  }
+  
+  const getProducts = async () => {
+      try {
+
+      const response = await fetch('https://0f2e-137-132-26-153.ngrok-free.app/api/adminTransactions/products/view/all', {
+        method: 'POST'
+      })
+    
+      if (!response.ok) {
+        throw new Error('Get products failed')
+      }
+
+      const result = await response.json()
+      console.log(result)
+    } catch (error) {
+      console.error('Error getting products:', error)
+    }
+  }
+  
   const [reqFormData, setReqFormData] = useState(products.map((product) => ({
       id: product.id,
       product: '',
