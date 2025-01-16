@@ -1,8 +1,9 @@
 "use client"
 
-import Sidebar from '../components/sidebar'
+import Sidebar from '../../components/sidebar'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 type Product = {
   id: number
@@ -46,6 +47,7 @@ const tasks: Task[] = [
 
 export default function Home() {
 
+  const router = useRouter()
   const [reqFormData, setReqFormData] = useState({
     1: { id:'', quantity: '' },
     2: { id:'', quantity: '' },
@@ -70,6 +72,13 @@ export default function Home() {
       [id]: { id:'', quantity: ''},
     }));
   };
+  
+  const handleLogout = (e: React.FormEvent) => {
+    //e.preventDefault();
+    //console.log('UserID:', userID);
+    //console.log('Password:', password);
+    router.push('/')
+  };
 
   return (
     <div className="flex">
@@ -78,7 +87,7 @@ export default function Home() {
         <header className="mb-4">
         <div className="flex">
           <h1 className="text-4xl text-teal-700"><span className="font-bold">Welcome</span> {userName}! You have <span className="font-bold">{voucherCount} </span>vouchers left.</h1>
-          <button className="ml-auto bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700">
+          <button className="ml-auto bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700" onClick={handleLogout}>
               Logout
             </button>
           </div>

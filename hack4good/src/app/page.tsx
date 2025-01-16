@@ -1,16 +1,17 @@
 "use client"
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
   const [userID, setUserID] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter()
 
   const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('UserID:', userID);
-    console.log('Password:', password);
-    // You can perform your authentication API call here
-    alert('Login Attempted!');
+    //e.preventDefault();
+    //console.log('UserID:', userID);
+    //console.log('Password:', password);
+    router.push('/dashboard')
   };
 
   return (

@@ -10,7 +10,7 @@ export default function Sidebar() {
       </div>
       <nav>
         <ul>
-          <li><Link href="/" className="block py-2 hover:bg-teal-600 px-4">Dashboard</Link></li>
+          <li><Link href="/dashboard" className="block py-2 hover:bg-teal-600 px-4">Dashboard</Link></li>
           <li><Link href="/transactions" className="block py-2 hover:bg-teal-600 px-4">Transactions</Link></li>
           <li><Link href="/profile" className="block py-2 hover:bg-teal-600 px-4">Profile</Link></li>
         </ul>
