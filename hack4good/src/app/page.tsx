@@ -3,17 +3,66 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
-  const [userID, setUserID] = useState('');
-  const [password, setPassword] = useState('');
   const router = useRouter()
+  
+  const [loginFormData, setLoginFormData] = useState([{
+      userID: '',
+      password: ''
+    }]);
+    
+  const login = async ( userID: string, password: string ) => {
+      try {
 
-  const handleLogin = (e: React.FormEvent) => {
+      const response = await fetch('https://5238-137-132-26-153.ngrok-free.app/api/residents/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+       },
+        body: JSON.stringify({"userId": userID, "password": password}),
+      })
+    
+      if (!response.ok) {
+        throw new Error('Login failed')
+      }
+
+      const result = await response.json()
+      console.log(result)
+      if(response.isAdmin){
+      	const url = format({
+	    pathname: '/dashboard',
+	    query: { userId: response.userId},
+      	});
+      	router.push(url)
+      } else {
+	const url = format({
+	    pathname: '/pending_claims',
+	    query: { userId: response.userId},
+      	});
+      	router.push(url)
+      }
+      
+    } catch (error) {
+      console.error('Error submitting login form:', error)
+    }
+  }
+
+
+  const handleLogin = async (e: React.FormEvent, userID: string, password: string) => {
     e.preventDefault();
-    //console.log('UserID:', userID);
-    //console.log('Password:', password);
-    router.push('/dashboard')
+    await login(userID, password)
+  };
+  
+  /* Functions for managing the form status for login request*/
+  const handleUserIDChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value  } = e.target
+    setLoginFormData({userID: value, password: loginFormData.password})
   };
 
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value  } = e.target
+    setLoginFormData({userID: loginFormData.userID, password: value})
+  };
+  
   return (
     <div className="flex h-screen">
       <div className="w-1/2 bg-teal-900">
@@ -37,8 +86,8 @@ const LoginPage = () => {
                 type="userID"
                 id="userID"
                 name="userID"
-                value={userID}
-                onChange={(e) => setUserID(e.target.value)}
+                value={loginFormData.userID}
+                onChange={(e) => handleUserIDChange(e)}
                 required
                 className="w-full px-4 py-2 border border-teal-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
@@ -51,8 +100,8 @@ const LoginPage = () => {
                 type="password"
                 id="password"
                 name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={loginFormData.password}
+                onChange={(e) => handlePasswordChange(e)}
                 required
                 className="w-full px-4 py-2 border border-teal-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
@@ -60,6 +109,7 @@ const LoginPage = () => {
             <button
               type="submit"
               className="w-full py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              onClick={(e) => handleLogin(e, loginFormData.userID, loginFormData.password)}
             >
               Login
             </button>
