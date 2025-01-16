@@ -2,7 +2,7 @@
 
 import Sidebar from '../../components/sidebar'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 type Product = {
@@ -48,7 +48,7 @@ export default function Home() {
   const router = useRouter()
   const { userId } = router.query
   
-  const getTasks = async ( userID: string, password: string ) => {
+  const getTasks = async () => {
       try {
 
       const response = await fetch('https://0f2e-137-132-26-153.ngrok-free.app/api/vouchers/viewtasks', {
@@ -63,6 +63,24 @@ export default function Home() {
       console.log(result)
     } catch (error) {
       console.error('Error getting tasks:', error)
+    }
+  }
+  
+  const getProducts = async () => {
+      try {
+
+      const response = await fetch('https://0f2e-137-132-26-153.ngrok-free.app/api/adminTransactions/products/view/all', {
+        method: 'POST'
+      })
+    
+      if (!response.ok) {
+        throw new Error('Get products failed')
+      }
+
+      const result = await response.json()
+      console.log(result)
+    } catch (error) {
+      console.error('Error getting products:', error)
     }
   }
   
