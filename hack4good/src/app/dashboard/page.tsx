@@ -10,6 +10,7 @@ type Product = {
   name: string
   price: number
   img: string
+  stocked: boolean
 }
 
 type Task = {
@@ -24,12 +25,12 @@ type Task = {
 const userName = "Tester"
 const voucherCount = 100
 const products: Product[] = [
-  { id: 1, name: 'Sponge', price: 30, img: `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbDNs2kL35Pq1sOfsrsKEoWCauclc1Z6DVpg&s` },
-  { id: 2, name: 'Plastic Cup', price: 4, img: `https://m.media-amazon.com/images/I/617UaV14bVL.jpg` } ,
-  { id: 3, name: 'Product 3', price: 2, img: `https://via.placeholder.com/200` },
-  { id: 4, name: 'Product 4', price: 15, img: `https://via.placeholder.com/200` },
-  { id: 5, name: 'Product 5', price: 22, img: `https://via.placeholder.com/200` },
-  { id: 6, name: 'Product 6', price: 6, img: `https://via.placeholder.com/200` },
+  { id: 1, name: 'Sponge', price: 30, img: `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbDNs2kL35Pq1sOfsrsKEoWCauclc1Z6DVpg&s`, stocked: true },
+  { id: 2, name: 'Plastic Cup', price: 4, img: `https://m.media-amazon.com/images/I/617UaV14bVL.jpg`, stocked: true } ,
+  { id: 3, name: 'Product 3', price: 2, img: `https://via.placeholder.com/200`, stocked: true },
+  { id: 4, name: 'Product 4', price: 15, img: `https://via.placeholder.com/200`, stocked: false},
+  { id: 5, name: 'Product 5', price: 22, img: `https://via.placeholder.com/200`, stocked: false },
+  { id: 6, name: 'Product 6', price: 6, img: `https://via.placeholder.com/200`, stocked: true },
 ]
 
 const tasks: Task[] = [
@@ -50,13 +51,6 @@ export default function Home() {
       product: '',
       quantity: ''
     })));
-
-  const [preorderFormData, setPreorderFormData] = useState({
-      id: product.id,
-      product: '',
-      quantity: ''
-      }
-  );
 
   /* Functions for managing the status for voucher claims*/
   const handleTaskSubmit = (index: number) => {
@@ -81,17 +75,10 @@ export default function Home() {
   };
   
   /* Functions for managing the form status for preorder request*/
-  const handlePreorderChange = (e: React.ChangeEvent<HTMLInputElement>, product: string, quantity: number) => {
-    const { name, value  } = e.target
-    const updatedReqFormData = [...reqFormData]
-    updatedReqFormData[index] = { ...updatedReqFormData[index], product: product, quantity: value }
-    setReqFormData(updatedReqFormData)
-  };
-
-  const handlePreorderSubmit = ( e: React.FormEvent ) => {
+  const handlePreorderSubmit = ( e: React.FormEvent, index: number ) => {
     e.preventDefault()
     const reqToSubmit = reqFormData[index]  
-    alert("Request submitted!")
+    alert("Preorder submitted!")
     const updatedReqFormData = [...reqFormData]
     updatedReqFormData[index] = { ...updatedReqFormData[index], product: '', quantity: '' }
     setReqFormData(updatedReqFormData)
@@ -99,9 +86,7 @@ export default function Home() {
   
   
   const handleLogout = (e: React.FormEvent) => {
-    //e.preventDefault();
-    //console.log('UserID:', userID);
-    //console.log('Password:', password);
+    e.preventDefault();
     router.push('/')
   };
 
@@ -122,7 +107,19 @@ export default function Home() {
           <h1 className="text-3xl font-bold text-teal-700">Voucher System</h1>
         <div className="mb-16 w-full overflow-x-auto scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-300">
         <div className="flex space-x-4">
-          {tasks.map((task) => (
+          {tasks.map((task) => task.claimed? (
+            <div key={task.id} className="flex-shrink-0 bg-green-200 p-4 rounded-lg shadow-md">
+              <img
+                src={task.img}
+                className="w-full h-48 object-cover rounded-md mb-4"
+              />
+              <h3 className="text-xl font-semibold">{task.name}</h3>
+              <p className="text-teal-500">Reward: {task.reward.toFixed(0)} Vouchers</p>
+              <button className="w-full bg-teal-600 text-white py-2 mt-4 rounded-lg hover:bg-teal-700 cursor-not-allowed disabled">
+                Claimed: Processing
+              </button>
+            </div>
+          ):(
             <div key={task.id} className="flex-shrink-0 bg-white p-4 rounded-lg shadow-md">
               <img
                 src={task.img}
@@ -140,7 +137,7 @@ export default function Home() {
     </div>
     <h1 className="text-3xl font-bold text-teal-700 mb-8">Minimart</h1>
         <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map((product, index) => (
+          {products.map((product, index) => product.stocked?(
             <div key={product.id} className="bg-white p-4 rounded-lg shadow-md">
               <img
                 src={product.img}
@@ -168,43 +165,35 @@ export default function Home() {
 		</form>
               
            </div>
-          ))}
-                    <div key={999} className="flex-shrink-0 bg-white p-4 rounded-lg shadow-md">
+          ):(
+          <div key={product.id} className="bg-gray-200 opacity-70 p-4 rounded-lg shadow-md">
               <img
-                src={"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Icon-round-Question_mark.svg/1200px-Icon-round-Question_mark.svg.png"}
-                className="w-full h-48 object-cover rounded-md mb-4"
+                src={product.img}
+                className="w-full h-48 object-cover rounded-md mb-4 opacity-70"
               />
-              <h3 className="text-xl font-semibold">{"Enter product naame"}</h3>
-		<form onSubmit={(e) => handleReqSubmit(e, 999)} className="space-y-4">
+              <h3 className="text-xl font-semibold">{product.name}</h3>
+              <p className="text-teal-500">Price: {product.price.toFixed(0)} Vouchers</p>
+              
+              <form onSubmit={(e) => handlePreorderSubmit(e, index)} className="space-y-4">
 		<div>
 		  <input
 		    type="text"
-		    id="999"
-		    name="preorder"
+		    id={product.id}
+		    name={product.name}
 		    className="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500"
 		    placeholder="Enter quantity"
-		    value={reqFormData.quantity}
-		    onChange={(e) => handleReqChange(e, '222', 999)}
+		    value={reqFormData[index].quantity}
+		    onChange={(e) => handleReqChange(e, index, index)}
 		    required
 		  />
 		</div>
-		<div>
-		  <input
-		    type="text"
-		    id="999"
-		    name="preorder"
-		    className="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500"
-		    placeholder="Enter quantity"
-		    value={reqFormData.quantity}
-		    onChange={(e) => handleReqChange(e, '222', 999)}
-		    required
-		  />
-		</div>
-              <button className="w-full bg-teal-600 text-white py-2 mt-2 rounded-lg hover:bg-teal-700">
-                Pre-order
+              <button className="w-full bg-red-600 text-white py-2 mt-2 rounded-lg hover:bg-teal-700">
+                Preorder for this
               </button>
 		</form>
-            </div>
+              
+           </div>
+          ))}
         </section>
       </main>
     </div>
