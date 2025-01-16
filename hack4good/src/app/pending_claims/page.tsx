@@ -3,7 +3,7 @@
 import Sidebar from '../../components/sidebar'
 import Link from 'next/link'
 import { useState } from 'react'
-import Transactions from '../transactions/page'
+import { useRouter } from 'next/navigation'
 
 type Claim = {
     voucherId: number
@@ -14,8 +14,8 @@ type Claim = {
 }
 
 interface FormData {
-  quantity: number
-  item: string
+  residentId: string
+  voucherId: string
 }
 
 const claims: Claim[] = [
@@ -29,31 +29,26 @@ const claims: Claim[] = [
   ]
 
 export default function Home() {
-
-  const [reqFormData, setReqFormData] = useState({
-    1: { id:'', quantity: '' },
-    2: { id:'', quantity: '' },
-    3: { id:'', quantity: '' },
-    4: { id:'', quantity: '' },
-    5: { id:'', quantity: '' },
-    6: { id:'', quantity: '' },
-    7: { id:'', quantity: '' },
-  });
-
-  const handleChange = (id: number, product:string, value: string) => {
-    setReqFormData((prev) => ({
-      ...prev,
-      [id]: { ...prev[id], id: product, quantity: value },
-    }));
-  };
-
-  const handleSubmit = (id: number) => {
-    // Reset form data for that item after submission
-    setReqFormData((prev) => ({
-      ...prev,
-      [id]: { id:'', quantity: ''},
-    }));
-  };
+  
+  const router = useRouter()
+  const [reqFormData, setReqFormData] = useState(
+    claims.map((claim) => ({
+      residentId: claim.residentId,
+      voucherId: claim.voucherId.toString(),
+    }))
+  );
+  
+  const handleSubmit = (id: number) => (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent page reload
+    setReqFormData((prev) =>
+      prev.map((item) =>
+        item.voucherId === id.toString()
+          ? { ...item, residentId: '', voucherId: '' }
+          : item
+      )
+    );
+    console.log("Form submitted for voucher:", id);
+};
 
   return (
     <div className="flex">
@@ -77,7 +72,7 @@ export default function Home() {
               <h3 className="text-xl font-semibold">{claim.voucherTaskName}</h3>
               <p className="text-teal-500">Resident name: {claim.residentName}</p>
               <p className="text-teal-500">Resident user ID: {claim.residentId}</p>
-              <form onSubmit=   {handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit(claim.voucherId)} className="space-y-4">
               <button className="w-full bg-teal-600 text-white py-2 mt-2 rounded-lg hover:bg-teal-700">
                 Approve
               </button>

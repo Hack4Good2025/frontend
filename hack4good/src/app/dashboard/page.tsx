@@ -33,13 +33,13 @@ const products: Product[] = [
 ]
 
 const tasks: Task[] = [
-  { id: 1, name: 'Hallway cleaning', reward: 30, img: `https://cdn-icons-png.flaticon.com/512/9818/9818876.png` },
-  { id: 2, name: 'Event organisation', reward: 15, img: `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwNhe3i33SVxcmc8VeO8HhH3wJ0imFZB_PiQ&s` } ,
-  { id: 3, name: 'Task 3', reward: 2, img: `https://via.placeholder.com/200` },
-  { id: 4, name: 'Task 4', reward: 15, img: `https://via.placeholder.com/200` },
-  { id: 5, name: 'Task 5', reward: 22, img: `https://via.placeholder.com/200` },
-  { id: 6, name: 'Task 6', reward: 6, img: `https://via.placeholder.com/200` },
-  { id: 7, name: 'Task 7', reward: 12, img: `https://via.placeholder.com/200` },
+  { id: 1, name: 'Hallway cleaning', reward: 30, claimed: false, distributed: false, img: `https://cdn-icons-png.flaticon.com/512/9818/9818876.png` },
+  { id: 2, name: 'Event organisation', reward: 15, claimed: false, distributed: false, img: `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwNhe3i33SVxcmc8VeO8HhH3wJ0imFZB_PiQ&s` } ,
+  { id: 3, name: 'Task 3', reward: 2, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
+  { id: 4, name: 'Task 4', reward: 15, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
+  { id: 5, name: 'Task 5', reward: 22, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
+  { id: 6, name: 'Task 6', reward: 6, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
+  { id: 7, name: 'Task 7', reward: 12, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
 ]
 
 export default function Home() {
