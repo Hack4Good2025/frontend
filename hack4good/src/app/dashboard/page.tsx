@@ -17,11 +17,8 @@ type Task = {
   name: string
   reward: number
   img: string
-}
-
-interface FormData {
-  quantity: number
-  item: string
+  claimed: boolean
+  distributed: boolean
 }
 
 const userName = "Tester"
@@ -48,30 +45,58 @@ const tasks: Task[] = [
 export default function Home() {
 
   const router = useRouter()
-  const [reqFormData, setReqFormData] = useState({
-    1: { id:'', quantity: '' },
-    2: { id:'', quantity: '' },
-    3: { id:'', quantity: '' },
-    4: { id:'', quantity: '' },
-    5: { id:'', quantity: '' },
-    6: { id:'', quantity: '' },
-    7: { id:'', quantity: '' },
-  });
+  const [reqFormData, setReqFormData] = useState(products.map((product) => ({
+      id: product.id,
+      product: '',
+      quantity: ''
+    })));
 
-  const handleChange = (id: number, product:string, value: string) => {
-    setReqFormData((prev) => ({
-      ...prev,
-      [id]: { ...prev[id], id: product, quantity: value },
-    }));
+  const [preorderFormData, setPreorderFormData] = useState({
+      id: product.id,
+      product: '',
+      quantity: ''
+      }
+  );
+
+  /* Functions for managing the status for voucher claims*/
+  const handleTaskSubmit = (index: number) => {
+    alert(`Request submitted!`)
   };
 
-  const handleSubmit = (id: number) => {
-    // Reset form data for that item after submission
-    setReqFormData((prev) => ({
-      ...prev,
-      [id]: { id:'', quantity: ''},
-    }));
+  /* Functions for managing the form status for product request*/
+  const handleReqChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, product: string, quantity: number) => {
+    const { name, value  } = e.target
+    const updatedReqFormData = [...reqFormData]
+    updatedReqFormData[index] = { ...updatedReqFormData[index], product: product, quantity: value }
+    setReqFormData(updatedReqFormData)
   };
+
+  const handleReqSubmit = ( e: React.FormEvent, index: number) => {
+    e.preventDefault()
+    const reqToSubmit = reqFormData[index]  
+    alert("Request submitted!")
+    const updatedReqFormData = [...reqFormData]
+    updatedReqFormData[index] = { ...updatedReqFormData[index], product: '', quantity: '' }
+    setReqFormData(updatedReqFormData)
+  };
+  
+  /* Functions for managing the form status for preorder request*/
+  const handlePreorderChange = (e: React.ChangeEvent<HTMLInputElement>, product: string, quantity: number) => {
+    const { name, value  } = e.target
+    const updatedReqFormData = [...reqFormData]
+    updatedReqFormData[index] = { ...updatedReqFormData[index], product: product, quantity: value }
+    setReqFormData(updatedReqFormData)
+  };
+
+  const handlePreorderSubmit = ( e: React.FormEvent ) => {
+    e.preventDefault()
+    const reqToSubmit = reqFormData[index]  
+    alert("Request submitted!")
+    const updatedReqFormData = [...reqFormData]
+    updatedReqFormData[index] = { ...updatedReqFormData[index], product: '', quantity: '' }
+    setReqFormData(updatedReqFormData)
+  };
+  
   
   const handleLogout = (e: React.FormEvent) => {
     //e.preventDefault();
@@ -104,8 +129,9 @@ export default function Home() {
                 className="w-full h-48 object-cover rounded-md mb-4"
               />
               <h3 className="text-xl font-semibold">{task.name}</h3>
-              <p className="text-teal-500">{task.reward.toFixed(0)} Vouchers</p>
-              <button className="w-full bg-teal-600 text-white py-2 mt-4 rounded-lg hover:bg-teal-700">
+              <p className="text-teal-500">Reward: {task.reward.toFixed(0)} Vouchers</p>
+              <button className="w-full bg-teal-600 text-white py-2 mt-4 rounded-lg hover:bg-teal-700"
+              onClick={() => handleTaskSubmit(task.id)}>
                 Mark as complete
               </button>
             </div>
@@ -114,16 +140,16 @@ export default function Home() {
     </div>
     <h1 className="text-3xl font-bold text-teal-700 mb-8">Minimart</h1>
         <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map((product) => (
+          {products.map((product, index) => (
             <div key={product.id} className="bg-white p-4 rounded-lg shadow-md">
               <img
                 src={product.img}
                 className="w-full h-48 object-cover rounded-md mb-4"
               />
               <h3 className="text-xl font-semibold">{product.name}</h3>
-              <p className="text-teal-500">{product.price.toFixed(0)} Vouchers</p>
+              <p className="text-teal-500">Price: {product.price.toFixed(0)} Vouchers</p>
               
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={(e) => handleReqSubmit(e, index)} className="space-y-4">
 		<div>
 		  <input
 		    type="text"
@@ -131,8 +157,8 @@ export default function Home() {
 		    name={product.name}
 		    className="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500"
 		    placeholder="Enter quantity"
-		    value={reqFormData.quantity}
-		    onChange={handleChange}
+		    value={reqFormData[index].quantity}
+		    onChange={(e) => handleReqChange(e, index, index)}
 		    required
 		  />
 		</div>
@@ -149,7 +175,7 @@ export default function Home() {
                 className="w-full h-48 object-cover rounded-md mb-4"
               />
               <h3 className="text-xl font-semibold">{"Enter product naame"}</h3>
-		<form onSubmit={handleSubmit} className="space-y-4">
+		<form onSubmit={(e) => handleReqSubmit(e, 999)} className="space-y-4">
 		<div>
 		  <input
 		    type="text"
@@ -158,7 +184,19 @@ export default function Home() {
 		    className="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500"
 		    placeholder="Enter quantity"
 		    value={reqFormData.quantity}
-		    onChange={handleChange}
+		    onChange={(e) => handleReqChange(e, '222', 999)}
+		    required
+		  />
+		</div>
+		<div>
+		  <input
+		    type="text"
+		    id="999"
+		    name="preorder"
+		    className="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500"
+		    placeholder="Enter quantity"
+		    value={reqFormData.quantity}
+		    onChange={(e) => handleReqChange(e, '222', 999)}
 		    required
 		  />
 		</div>
