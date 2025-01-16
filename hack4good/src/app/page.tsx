@@ -8,7 +8,7 @@ const LoginPage = () => {
   const router = useRouter()
 
   const handleLogin = (e: React.FormEvent) => {
-    //e.preventDefault();
+    e.preventDefault();
     //console.log('UserID:', userID);
     //console.log('Password:', password);
     router.push('/dashboard')
