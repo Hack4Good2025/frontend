@@ -2,13 +2,12 @@
 import { useState } from 'react'
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
+  const [userID, setUserID] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic
-    console.log('Email:', email);
+    console.log('UserID:', userID);
     console.log('Password:', password);
     // You can perform your authentication API call here
     alert('Login Attempted!');
@@ -16,16 +15,13 @@ const LoginPage = () => {
 
   return (
     <div className="flex h-screen">
-      {/* Left side: Image */}
       <div className="w-1/2 bg-teal-900">
         <img
-          src="https://via.placeholder.com/600x800"
-          alt="Placeholder Image"
+          src="https://scontent-sin11-1.xx.fbcdn.net/v/t39.30808-6/392952483_741672298002543_5339692528703768269_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=MpSqiVWEItoQ7kNvgHKijSn&_nc_zt=23&_nc_ht=scontent-sin11-1.xx&_nc_gid=AvzbOLCcsqpAxAzYoUKeyyz&oh=00_AYCe2LEycOajM9sG_sbp-ChVJDQoWkL9h9fAs6l7EEsK2g&oe=678E94A8"
           className="object-cover w-full h-full"
         />
       </div>
 
-      {/* Right side: Login Form */}
       <div className="w-1/2 flex justify-center items-center bg-white">
         <div className="w-4/5 max-w-md space-y-8">
           <h2 className="text-center text-3xl font-semibold text-teal-900">
@@ -33,15 +29,15 @@ const LoginPage = () => {
           </h2>
           <form className="space-y-6" onSubmit={handleLogin}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-teal-700">
-                Email Address
+              <label htmlFor="userID" className="block text-sm font-medium text-teal-700">
+                User ID
               </label>
               <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="userID"
+                id="userID"
+                name="userID"
+                value={userID}
+                onChange={(e) => setUserID(e.target.value)}
                 required
                 className="w-full px-4 py-2 border border-teal-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
@@ -74,3 +70,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
