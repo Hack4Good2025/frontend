@@ -43,13 +43,18 @@ export default function Home() {
     alert(`Request submitted! resident ID: ${residentID}, voucher ID: ${voucherID}`)
 };
 
+  const handleLogout = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push('/')
+  };
+
   return (
     <div className="flex">
       <Sidebar />
       <main className="flex-1 p-8">
         <header className="mb-4">
         <div className="flex">
-          <button className="ml-auto bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700">
+          <button className="ml-auto bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700" onClick={handleLogout}>
               Logout
             </button>
         </div>
