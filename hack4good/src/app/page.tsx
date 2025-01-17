@@ -13,7 +13,7 @@ const LoginPage = () => {
   const login = async ( userID: string, password: string ) => {
       try {
 
-      const response = await fetch('https://5238-137-132-26-153.ngrok-free.app/api/residents/login', {
+      const response = await fetch('https://hack4good2025-backend-1.onrender.com/api/residents/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,18 +27,10 @@ const LoginPage = () => {
 
       const result = await response.json()
       console.log(result)
-      if(response.isAdmin){
-      	const url = format({
-	    pathname: '/dashboard',
-	    query: { userId: response.userId},
-      	});
-      	router.push(url)
+      if(result.isAdmin == true){
+      	router.push(`/pending_claims?userId=${result.userId}`)
       } else {
-	const url = format({
-	    pathname: '/pending_claims',
-	    query: { userId: response.userId},
-      	});
-      	router.push(url)
+      	router.push(`/dashboard?userId=${result.userId}`)
       }
       
     } catch (error) {

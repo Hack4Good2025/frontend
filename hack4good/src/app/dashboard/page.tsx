@@ -3,56 +3,52 @@
 import Sidebar from '../../components/sidebar'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams  } from 'next/navigation'
 
 type Product = {
-  id: number
+  createdAt: object
+  description: string
+  id: string
+  imageUrl: string
   name: string
   price: number
-  img: string
-  stocked: boolean
+  productId: string
+  stock: number
+  updatedAt: object
 }
 
 type Task = {
-  id: number
-  name: string
-  reward: number
-  img: string
-  claimed: boolean
-  distributed: boolean
+  claimStatus: boolean
+  createdAt: object
+  distributedStatus: boolean
+  taskName: string
+  updatedAt: Object
+  userId: string
+  value: number
+  voucherTaskId: string
+  imageUrl: string
 }
 
 const userName = "Tester"
 const voucherCount = 100
-const products: Product[] = [
-  { id: 1, name: 'Sponge', price: 30, img: `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbDNs2kL35Pq1sOfsrsKEoWCauclc1Z6DVpg&s`, stocked: true },
-  { id: 2, name: 'Plastic Cup', price: 4, img: `https://m.media-amazon.com/images/I/617UaV14bVL.jpg`, stocked: true } ,
-  { id: 3, name: 'Product 3', price: 2, img: `https://via.placeholder.com/200`, stocked: true },
-  { id: 4, name: 'Product 4', price: 15, img: `https://via.placeholder.com/200`, stocked: false},
-  { id: 5, name: 'Product 5', price: 22, img: `https://via.placeholder.com/200`, stocked: false },
-  { id: 6, name: 'Product 6', price: 6, img: `https://via.placeholder.com/200`, stocked: true },
-]
-
-const tasks: Task[] = [
-  { id: 1, name: 'Hallway cleaning', reward: 30, claimed: false, distributed: false, img: `https://cdn-icons-png.flaticon.com/512/9818/9818876.png` },
-  { id: 2, name: 'Event organisation', reward: 15, claimed: false, distributed: false, img: `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwNhe3i33SVxcmc8VeO8HhH3wJ0imFZB_PiQ&s` } ,
-  { id: 3, name: 'Task 3', reward: 2, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
-  { id: 4, name: 'Task 4', reward: 15, claimed: true, distributed: false, img: `https://via.placeholder.com/200` },
-  { id: 5, name: 'Task 5', reward: 22, claimed: true, distributed: false, img: `https://via.placeholder.com/200` },
-  { id: 6, name: 'Task 6', reward: 6, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
-  { id: 7, name: 'Task 7', reward: 12, claimed: false, distributed: false, img: `https://via.placeholder.com/200` },
-]
 
 export default function Home() {
 
   const router = useRouter()
-  const { userId } = router.query
+  const searchParams = useSearchParams()
+  const userID = searchParams.get("userId")
   
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string>('')
+  
+  const [products, setProducts] = useState<Product[]>([]) // 
+  const [tasks, setTasks] = useState<Task[]>([]) 
+
   const getTasks = async () => {
       try {
 
-      const response = await fetch('https://0f2e-137-132-26-153.ngrok-free.app/api/vouchers/viewtasks', {
-        method: 'POST'
+      const response = await fetch('https://hack4good2025-backend-1.onrender.com/api/vouchers/viewtasks/all', {
+        method: 'GET'
       })
     
       if (!response.ok) {
@@ -61,6 +57,8 @@ export default function Home() {
 
       const result = await response.json()
       console.log(result)
+      setTasks(result)
+      console.log(products)
     } catch (error) {
       console.error('Error getting tasks:', error)
     }
@@ -69,16 +67,17 @@ export default function Home() {
   const getProducts = async () => {
       try {
 
-      const response = await fetch('https://0f2e-137-132-26-153.ngrok-free.app/api/adminTransactions/products/view/all', {
-        method: 'POST'
+      const response = await fetch('https://hack4good2025-backend-1.onrender.com/api/adminTransactions/products/view/all', {
+        method: 'GET'
       })
     
       if (!response.ok) {
         throw new Error('Get products failed')
       }
-
       const result = await response.json()
       console.log(result)
+      setProducts(result)
+      console.log(products)
     } catch (error) {
       console.error('Error getting products:', error)
     }
@@ -127,6 +126,11 @@ export default function Home() {
     e.preventDefault();
     router.push('/')
   };
+  
+  useEffect(() => {
+  	getTasks()
+  	getProducts()
+  }, [])
 
   return (
     <div className="flex">
@@ -145,28 +149,28 @@ export default function Home() {
           <h1 className="text-3xl font-bold text-teal-700">Voucher System</h1>
         <div className="mb-16 w-full overflow-x-auto scrollbar-thin scrollbar-thumb-blue-600 scrollbar-track-gray-300">
         <div className="flex space-x-4">
-          {tasks.map((task) => task.claimed? (
-            <div key={task.id} className="flex-shrink-0 bg-green-200 p-4 rounded-lg shadow-md">
+          {tasks.map((task) => task.claimStatus? (
+            <div key={task.voucherTaskId} className="flex-shrink-0 bg-green-200 p-4 rounded-lg shadow-md">
               <img
-                src={task.img}
+                src={task.imageUrl}
                 className="w-full h-48 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold">{task.name}</h3>
-              <p className="text-teal-500">Reward: {task.reward.toFixed(0)} Vouchers</p>
+              <h3 className="text-xl font-semibold">{task.taskName}</h3>
+              <p className="text-teal-500">Reward: {task.value.toFixed(0)} Vouchers</p>
               <button className="w-full bg-teal-600 text-white py-2 mt-4 rounded-lg hover:bg-teal-700 cursor-not-allowed disabled">
                 Claimed: Processing
               </button>
             </div>
           ):(
-            <div key={task.id} className="flex-shrink-0 bg-white p-4 rounded-lg shadow-md">
+            <div key={task.voucherTaskId} className="flex-shrink-0 bg-white p-4 rounded-lg shadow-md">
               <img
-                src={task.img}
+                src={task.imageUrl}
                 className="w-full h-48 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold">{task.name}</h3>
-              <p className="text-teal-500">Reward: {task.reward.toFixed(0)} Vouchers</p>
+              <h3 className="text-xl font-semibold">{task.taskName}</h3>
+              <p className="text-teal-500">Reward: {task.value.toFixed(0)} Vouchers</p>
               <button className="w-full bg-teal-600 text-white py-2 mt-4 rounded-lg hover:bg-teal-700"
-              onClick={() => handleTaskSubmit(task.id)}>
+              onClick={() => handleTaskSubmit(task.voucherTaskId)}>
                 Mark as complete
               </button>
             </div>
@@ -175,7 +179,7 @@ export default function Home() {
     </div>
     <h1 className="text-3xl font-bold text-teal-700 mb-8">Minimart</h1>
         <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map((product, index) => product.stocked?(
+          {products.map((product, index) => product.stock>0?(
             <div key={product.id} className="bg-white p-4 rounded-lg shadow-md">
               <img
                 src={product.img}
