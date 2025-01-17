@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation'
 const LoginPage = () => {
   const router = useRouter()
   
-  const [loginFormData, setLoginFormData] = useState([{
+  const [loginFormData, setLoginFormData] = useState({
       userID: '',
       password: ''
-    }]);
+    });
     
   const login = async ( userID: string, password: string ) => {
       try {
@@ -28,7 +28,7 @@ const LoginPage = () => {
       const result = await response.json()
       console.log(result)
       if(result.isAdmin == true){
-      	router.push(`/pending_claims?userId=${result.userId}`)
+      	router.push(`/products?userId=${result.userId}`)
       } else {
       	router.push(`/dashboard?userId=${result.userId}`)
       }
@@ -39,9 +39,9 @@ const LoginPage = () => {
   }
 
 
-  const handleLogin = async (e: React.FormEvent, userID: string, password: string) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login(userID, password)
+    await login(loginFormData.userID, loginFormData.password)
   };
   
   /* Functions for managing the form status for login request*/
@@ -101,7 +101,7 @@ const LoginPage = () => {
             <button
               type="submit"
               className="w-full py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-              onClick={(e) => handleLogin(e, loginFormData.userID, loginFormData.password)}
+              onClick={(e) => handleLogin(e)}
             >
               Login
             </button>
