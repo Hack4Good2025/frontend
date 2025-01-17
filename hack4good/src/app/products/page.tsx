@@ -238,7 +238,7 @@ export default function Home() {
               <button 
                 type="button" 
                 onClick={() => handleOpenDescModal(index)}
-                className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+                className="px-4 py-2 bg-teal-600 text-white mt-2 rounded-lg hover:bg-teal-700">
                   Edit Product Description
               </button>
 
@@ -285,7 +285,7 @@ export default function Home() {
               <button 
                 type="button" 
                 onClick={() => handleOpenStockModal(index)}
-                className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+                className="px-4 py-2 bg-teal-600 text-white mt-2 rounded-lg hover:bg-teal-700">
                   Edit Product Stock
               </button>
 
