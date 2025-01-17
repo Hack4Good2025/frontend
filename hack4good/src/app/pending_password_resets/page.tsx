@@ -1,6 +1,6 @@
 "use client"
 
-import Sidebar from '../../components/sidebar'
+import AdminSidebar from '../../components/admin_sidebar'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -62,7 +62,7 @@ export default function Home() {
 
   return (
     <div className="flex">
-      <Sidebar />
+      <AdminSidebar />
       <main className="flex-1 p-8">
         <header className="mb-4">
         <div className="flex">
