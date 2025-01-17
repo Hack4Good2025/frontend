@@ -46,6 +46,11 @@ export default function Home() {
   const openAddTaskModal = () => setIsAddingTask(true);
   const closeAddTaskModal = () => setIsAddingTask(false);
 
+  const handleLogout = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push('/')
+  };
+
   const handleNewTaskChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       setNewTaskFormData({

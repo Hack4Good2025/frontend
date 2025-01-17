@@ -38,6 +38,11 @@ export default function Home() {
         password: ""
       }))
     );
+
+    const handleLogout = (e: React.FormEvent) => {
+      e.preventDefault();
+      router.push('/')
+    };
     
     const handleReqChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, requestID: string, residentID: string) => {
       const { name, value  } = e.target

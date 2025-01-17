@@ -55,6 +55,11 @@ export default function Home() {
     const openAddResidentModal = () => setIsAddingResident(true);
     const closeAddResidentModal = () => setIsAddingResident(false);
 
+    const handleLogout = (e: React.FormEvent) => {
+      e.preventDefault();
+      router.push('/')
+    };
+
     const handleNewResidentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setNewResidentFormData({

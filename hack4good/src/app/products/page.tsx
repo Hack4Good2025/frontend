@@ -56,6 +56,11 @@ export default function Home() {
   const openAddProductModal = () => setIsAddingProduct(true);
   const closeAddProductModal = () => setIsAddingProduct(false);
 
+  const handleLogout = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push('/')
+  };
+
   const handleNewProductChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       setNewProductFormData({
