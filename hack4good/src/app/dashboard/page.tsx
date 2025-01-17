@@ -15,6 +15,7 @@ type Product = {
   productId: string
   stock: number
   updatedAt: object
+  img: string
 }
 
 type Task = {
@@ -90,15 +91,15 @@ export default function Home() {
     })));
 
   /* Functions for managing the status for voucher claims*/
-  const handleTaskSubmit = (index: number) => {
+  const handleTaskSubmit = (taskId: string) => {
     alert(`Request submitted!`)
   };
 
   /* Functions for managing the form status for product request*/
-  const handleReqChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, product: string, quantity: number) => {
+  const handleReqChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, productName: string) => {
     const { name, value  } = e.target
     const updatedReqFormData = [...reqFormData]
-    updatedReqFormData[index] = { ...updatedReqFormData[index], product: product, quantity: value }
+    updatedReqFormData[index] = { ...updatedReqFormData[index], product: productName, quantity: value }
     setReqFormData(updatedReqFormData)
   };
 
@@ -197,7 +198,7 @@ export default function Home() {
 		    className="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500"
 		    placeholder="Enter quantity"
 		    value={reqFormData[index].quantity}
-		    onChange={(e) => handleReqChange(e, index, index)}
+		    onChange={(e) => handleReqChange(e, index, product.name)}
 		    required
 		  />
 		</div>
@@ -225,7 +226,7 @@ export default function Home() {
 		    className="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500"
 		    placeholder="Enter quantity"
 		    value={reqFormData[index].quantity}
-		    onChange={(e) => handleReqChange(e, index, index)}
+		    onChange={(e) => handleReqChange(e, index, product.name)}
 		    required
 		  />
 		</div>
