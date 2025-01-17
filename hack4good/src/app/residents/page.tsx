@@ -32,14 +32,16 @@ export default function Home() {
 
   const [newResidentFormData, setNewResidentFormData] = useState({
     name: '',
-    password: ''
+    password: '',
+    img: ''
   });
 
   const [descFormData, setDescFormData] = useState(
       residents.map((resident) => ({
         residentId: resident.userId,
         name: resident.name,
-        password: resident.password
+        password: resident.password,
+        img: resident.img
       }))
     );
 
@@ -67,8 +69,7 @@ export default function Home() {
         const newResident = { 
             ...newResidentFormData, 
             userId: (residents.length + 1).toString(),
-            voucherBalance: 100,
-            img: "https://via.placeholder.com/200"
+            voucherBalance: 100
         };
 
         residents.push(newResident); // Adding new resident to the list
@@ -76,17 +77,24 @@ export default function Home() {
         closeAddResidentModal();
     };
 
-    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, residentID: string, residentPassword: string) => {
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, residentID: string, residentPassword: string, residentImage: string) => {
       const { name, value  } = e.target
       const updatedDescFormData = [...descFormData]
-      updatedDescFormData[index] = { ...updatedDescFormData[index], residentId: residentID, name: value, password: residentPassword }
+      updatedDescFormData[index] = { ...updatedDescFormData[index], residentId: residentID, name: value, password: residentPassword, img: residentImage }
       setDescFormData(updatedDescFormData)
     };
   
-    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, residentID: string, residentName: string) => {
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, residentID: string, residentName: string, residentImage: string) => {
       const { name, value  } = e.target
       const updatedDescFormData = [...descFormData]
-      updatedDescFormData[index] = { ...updatedDescFormData[index], residentId: residentID, name: residentName, password: value }
+      updatedDescFormData[index] = { ...updatedDescFormData[index], residentId: residentID, name: residentName, password: value, img: residentImage }
+      setDescFormData(updatedDescFormData)
+    };
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, residentID: string, residentName: string, residentPassword: string) => {
+      const { name, value  } = e.target
+      const updatedDescFormData = [...descFormData]
+      updatedDescFormData[index] = { ...updatedDescFormData[index], residentId: residentID, name: residentName, password: residentPassword, img: value }
       setDescFormData(updatedDescFormData)
     };
 
@@ -95,7 +103,8 @@ export default function Home() {
       updatedDescFormData[index] = { 
           ...updatedDescFormData[index], 
           name: residents[index].name,
-          password: residents[index].password
+          password: residents[index].password,
+          img: residents[index].img
       };
       setDescFormData(updatedDescFormData);
       setOpenDescIndex(index);
@@ -106,7 +115,8 @@ export default function Home() {
       const descToSubmit = {
         productId: descFormData[index].residentId || residents[index].userId,
         name: descFormData[index].name || residents[index].name,
-        price: descFormData[index].password || residents[index].password
+        price: descFormData[index].password || residents[index].password,
+        img: descFormData[index].img || residents[index].img
       };
       alert(`Resident Updated: ${JSON.stringify(descToSubmit)}`);
       setOpenDescIndex(null);  // Close popup after submission
@@ -224,7 +234,7 @@ export default function Home() {
                                 type="text"
                                 name="name"
                                 defaultValue={resident.name}
-                                onChange={(e) => {handleNameChange(e, index, resident.userId, resident.password)}}
+                                onChange={(e) => {handleNameChange(e, index, resident.userId, resident.password, resident.img)}}
                                 className="w-full p-2 border rounded-md"
                                 required
                             />
@@ -232,7 +242,15 @@ export default function Home() {
                                 type="text"
                                 name="password"
                                 defaultValue={resident.password}
-                                onChange={(e) => {handlePasswordChange(e, index, resident.userId, resident.name)}}
+                                onChange={(e) => {handlePasswordChange(e, index, resident.userId, resident.name, resident.img)}}
+                                className="w-full p-2 border rounded-md"
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="image"
+                                defaultValue={resident.img}
+                                onChange={(e) => {handleImageChange(e, index, resident.userId, resident.name, resident.password)}}
                                 className="w-full p-2 border rounded-md"
                                 required
                             />
